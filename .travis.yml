@@ -8,3 +8,10 @@ install: true
 
 script:
   - pandoc -o index.html README.md
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: gh-pages
