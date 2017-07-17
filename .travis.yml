@@ -1,0 +1,10 @@
+addons:
+  apt:
+    packages:
+      - pandoc
+
+# Skip the installation step
+install: true
+
+script:
+  - pandoc -o index.html README.md
