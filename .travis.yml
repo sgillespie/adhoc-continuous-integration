@@ -1,18 +1,10 @@
-# Required for pandoc-citeproc
-dist: trusty
 sudo: false
 
-# We don't need a build environment
-language: generic
+# So we can install pandoc from cabal
+language: haskell
 
-addons:
-  apt:
-    packages:
-      - pandoc
-      - pandoc-citeproc
-
-# Skip the installation step
-install: true
+before_script:
+  - cabal install pandoc pandoc-citeproc
 
 script:
   - pandoc -o index.html --bibliography=bibliography.yaml -t html5 --toc --toc-depth=2 -Ss README.md
