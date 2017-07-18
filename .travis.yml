@@ -3,7 +3,7 @@ sudo: false
 # So we can install pandoc from cabal
 language: haskell
 
-before_script:
+install:
   - cabal install pandoc pandoc-citeproc
 
 script:
