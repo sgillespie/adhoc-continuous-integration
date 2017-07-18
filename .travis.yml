@@ -2,12 +2,13 @@ addons:
   apt:
     packages:
       - pandoc
+      - pandoc-citeproc
 
 # Skip the installation step
 install: true
 
 script:
-  - pandoc -o index.html README.md
+  - pandoc -o index.html --bibliography=bibliography.yaml -t html5 -Ss README.md
 
 deploy:
   provider: pages
