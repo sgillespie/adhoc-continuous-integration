@@ -8,7 +8,7 @@ addons:
 install: true
 
 script:
-  - pandoc -o index.html --bibliography=bibliography.yaml -t html5 -Ss README.md
+  - pandoc -o index.html --bibliography=bibliography.yaml -t html5 --toc --toc-depth=2 -Ss README.md
 
 deploy:
   provider: pages
