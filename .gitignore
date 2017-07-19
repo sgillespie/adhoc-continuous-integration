@@ -1,1 +1,9 @@
 index.html
+
+.cabal-sandbox
+cabal.sandbox.config
+
+_build
+_shake
+live.txt
+

@@ -6,13 +6,13 @@ language: haskell
 ghc: 8.0
 
 install:
-  - cabal install pandoc pandoc-citeproc
+  - cabal install shake pandoc pandoc-citeproc
 
 before_script:
   - export PATH="$HOME/.cabal/bin:$PATH"
 
 script:
-  - pandoc -o index.html --bibliography=bibliography.yaml -t html5 --toc --toc-depth=2 -Ss README.md
+  - ./build.sh
 
 cache:
   directories:
@@ -24,5 +24,6 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   target_branch: gh-pages
+  local_dir: _build
   on:
     branch: master
