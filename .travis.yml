@@ -1,3 +1,4 @@
+dist: trusty
 sudo: false
 
 # So we can install pandoc from cabal
