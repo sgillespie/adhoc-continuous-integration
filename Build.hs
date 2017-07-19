@@ -21,7 +21,7 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
             "--smart"
             "--standalone"
             "--table-of-contents"
-            "--template=templates/GitHub.html5"
+            "--template" templates
             "--to=html"
             "--toc-depth=2"
             "README.md"
