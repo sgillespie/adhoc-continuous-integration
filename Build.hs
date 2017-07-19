@@ -7,13 +7,13 @@ main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
     want ["_build/index.html"]
 
-    phony "clean" $ do
-        putNormal "Cleaning files in _build"
+    phony "clean" $
         removeFilesAfter "_build" ["//*"]
 
     "_build/index.html" %> \out -> do
-        putNormal "Building with Pandoc"
-        need ["README.md", "bibliography.yaml"]
+        templates <- getDirectoryFiles "" ["templates/*"]
+
+        need $ ["README.md", "bibliography.yaml"] ++ templates
 
         cmd "pandoc"
             "--bibliography=bibliography.yaml"
@@ -21,6 +21,7 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
             "--smart"
             "--standalone"
             "--table-of-contents"
+            "--template=templates/GitHub.html5"
             "--to=html"
             "--toc-depth=2"
             "README.md"
