@@ -8,8 +8,16 @@ ghc: 8.0
 install:
   - cabal install pandoc pandoc-citeproc
 
+before_script:
+  - export PATH="$HOME/.cabal/bin:$PATH"
+
 script:
   - pandoc -o index.html --bibliography=bibliography.yaml -t html5 --toc --toc-depth=2 -Ss README.md
+
+cache:
+  directories:
+    - $HOME/.ghc
+    - $HOME/.cabal
 
 deploy:
   provider: pages
