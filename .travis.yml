@@ -2,6 +2,7 @@ sudo: false
 
 # So we can install pandoc from cabal
 language: haskell
+ghc: 8.0
 
 install:
   - cabal install pandoc pandoc-citeproc
