@@ -1,12 +1,26 @@
-# Adhoc Continuous Integration
-Building a CI tool from the ground up with Docker
+---
+bibliography: 'docs/bibliography.yaml'
+subtitle: Building a CI tool from the ground up with Docker
+title: Adhoc Continuous Integration
+---
 
-## Introduction
+-   [Introduction](#introduction)
+-   [Continuous Integration](#continuous-integration)
+-   [Software Stack](#software-stack)
+-   [First Attempt](#first-attempt)
+-   [A Better Implementation](#a-better-implementation)
 
-## Continuous Integration
+Introduction
+------------
 
-## Software Stack
+Continuous Integration
+----------------------
 
-## First Attempt
+Software Stack
+--------------
 
-## A Better Implementation
+First Attempt
+-------------
+
+A Better Implementation
+-----------------------
