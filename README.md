@@ -1,8 +1,5 @@
----
-bibliography: 'docs/bibliography.yaml'
-subtitle: Building a CI tool from the ground up with Docker
-title: Adhoc Continuous Integration
----
+# Adhoc Continuous Integration
+> Building a CI tool from the ground up with Docker
 
 -   [Introduction](#introduction)
 -   [Continuous Integration](#continuous-integration)

@@ -41,5 +41,6 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
 
         cmd "pandoc" 
             "--output" out
+            "--template=docs/template.md"
             "--to=markdown"
             args
