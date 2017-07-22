@@ -7,17 +7,14 @@ main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
     want ["README.md", "_build/index.html"]
 
-    let title    = "Adhoc Continuous Integration"
-        subtitle = "Building a CI tool from the ground up with Docker"
-        -- Common Pandoc args
-        args     = [
+    -- Common Pandoc args
+    let args = [
             "--bibliography=docs/bibliography.yaml",
             "--smart",
             "--standalone",
             "--table-of-contents",
             "--toc-depth=2",
-            "--variable", "title:" ++ title,
-            "--variable", "subtitle:" ++ subtitle,
+            "docs/metadata.yaml",
             "docs/adhoc-continuous-integration.md"]
 
     phony "clean" $
