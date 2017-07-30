@@ -9,4 +9,21 @@ references:
     title: Continuous Integration
     type: webpage
     URL: https://martinfowler.com/articles/continuousIntegration.html
+  - id: sankey2006
+    author:
+      family: Sankey
+      given: Jason
+    issued:
+      year: 2006
+    title: The Road to Build Enlightenment
+    type: webpage
+    URL: http://zutubi.com/products/pulse/articles/buildenlightenment
+  - id: engineyard2012
+    author: 
+      literal: Engine Yard
+    issued: 
+      year: 2012
+    title: "3 Challenges to Continuous Integration and How to Overcome Them"
+    type: webpage
+    URL: https://blog.engineyard.com/2012/continuous-integration
 ...
