@@ -26,4 +26,10 @@ references:
     title: "3 Challenges to Continuous Integration and How to Overcome Them"
     type: webpage
     URL: https://blog.engineyard.com/2012/continuous-integration
+  - id: docker-multistage
+    author:
+      literal: Docker Inc.
+    title: Use multi-stage builds
+    type: webpage
+    URL: https://docs.docker.com/engine/userguide/eng-image/multistage-build/
 ...

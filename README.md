@@ -4,7 +4,7 @@
 -   [Introduction](#introduction)
 -   [What is Continuous Integration?](#what-is-continuous-integration)
 -   [Prerequisites](#prerequisites)
--   [First Attempt](#first-attempt)
+-   [Using Docker Build](#using-docker-build)
 -   [A Better Implementation](#a-better-implementation)
 -   [References](#references)
 
@@ -68,8 +68,40 @@ Compose. We use newer features, so our dependencies will be
 -   Docker Engine &gt;= 17.05
 -   Docker Compose &gt;= 1.10
 
-First Attempt
--------------
+Using Docker Build
+------------------
+
+Initially, our CI job will follow this process
+
+1.  Check out a clean copy of the repository
+2.  Build and test the code
+3.  Build a Docker image
+
+The output will be an image that can run our code. We can achieve this
+by using docker build, with the new multi-stage feature.
+
+### Multi-stage Builds
+
+Docker 17.05+ contains a new feature called multi-stage builds. With
+multi-stage builds, we build multiple containers, called stages, in a
+single Dockerfile. We can selectively copy artifacts from one stage to
+another. Each stage begins with a `FROM` instruction, and the last stage
+results in the output image.[@docker-multistage]
+
+Here is an example from the Docker (User
+Guide)\[https://docs.docker.com/engine/userguide/eng-image/multistage-build/\#use-multi-stage-builds\]
+
+    FROM golang:1.7.3
+    WORKDIR /go/src/github.com/alexellis/href-counter/
+    RUN go get -d -v golang.org/x/net/html  
+    COPY app.go .
+    RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+    FROM alpine:latest  
+    RUN apk --no-cache add ca-certificates
+    WORKDIR /root/
+    COPY --from=0 /go/src/github.com/alexellis/href-counter/app .
+    CMD ["./app"]  
 
 A Better Implementation
 -----------------------
