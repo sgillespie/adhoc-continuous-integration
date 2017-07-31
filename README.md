@@ -5,7 +5,6 @@
 -   [What is Continuous Integration?](#what-is-continuous-integration)
 -   [Prerequisites](#prerequisites)
 -   [Using Docker Build](#using-docker-build)
--   [A Better Implementation](#a-better-implementation)
 -   [References](#references)
 
 Introduction
@@ -71,7 +70,7 @@ Compose. We use newer features, so our dependencies will be
 Using Docker Build
 ------------------
 
-Initially, our CI job will follow this process
+Initially, our CI job use the following process:
 
 1.  Check out a clean copy of the repository
 2.  Build and test the code
@@ -88,8 +87,8 @@ single Dockerfile. We can selectively copy artifacts from one stage to
 another. Each stage begins with a `FROM` instruction, and the last stage
 results in the output image.[@docker-multistage]
 
-Here is an example from the Docker (User
-Guide)\[https://docs.docker.com/engine/userguide/eng-image/multistage-build/\#use-multi-stage-builds\]
+Here is an example from the Docker [User
+Guide](https://docs.docker.com/engine/userguide/eng-image/multistage-build/#use-multi-stage-builds):
 
     FROM golang:1.7.3
     WORKDIR /go/src/github.com/alexellis/href-counter/
@@ -101,10 +100,82 @@ Guide)\[https://docs.docker.com/engine/userguide/eng-image/multistage-build/\#us
     RUN apk --no-cache add ca-certificates
     WORKDIR /root/
     COPY --from=0 /go/src/github.com/alexellis/href-counter/app .
-    CMD ["./app"]  
+    CMD ["./app"]
 
-A Better Implementation
------------------------
+### Using Multi-stage Builds
+
+We now create a Node.js builder. The output will be an nginx image,
+serving only static content built from the following commands:
+
+    npm install
+    npm test
+    npm run build
+
+Furthermore, we assume `npm run build` will generate artifacts in
+`build/`.
+
+First, we check out a clean copy of the repository:
+
+    FROM node:slim as git-builder
+    ARG GIT_URL
+    RUN apt-get update && \
+    apt-get -y install git
+    WORKDIR /usr/src/app
+    RUN git clone $GIT_URL .
+
+We define a build argument `GIT_URL`, allowing us to pass the git clone
+URL of the project we want to build
+
+We now define a second stage to build the project:
+
+    FROM node:slim as node-builder
+    COPY --from=git-builder /usr/src/app /usr/src/app
+    WORKDIR /usr/src/app
+    RUN npm install && \
+    npm run test && \
+    npm run build
+
+The argument `--from=git-builder` in the `COPY` instruction copies the
+source tree from the first stage to the second.
+
+We define a final stage to create the output image:
+
+    FROM nginx:alpine
+    COPY --from=node-builder /usr/src/app/build /usr/share/nginx/html
+
+Combining these stages into a single Dockerfile, we have
+
+    FROM node:slim as git-builder
+    ARG GIT_URL
+    RUN apt-get update && \
+    apt-get -y install git
+    WORKDIR /usr/src/app
+    RUN git clone $GIT_URL .
+
+    FROM node:slim as node-builder
+    COPY --from=git-builder /usr/src/app /usr/src/app
+    WORKDIR /usr/src/app
+    RUN npm install && \
+    npm run test && \
+    npm run build
+
+    FROM nginx:alpine
+    COPY --from=node-builder /usr/src/app/build /usr/share/nginx/html
+
+We can now execute the build using the `docker build` command. In this
+example we will build [React
+Boilerplate](https://www.reactboilerplate.com/):
+
+    docker build \
+        --build-arg "GIT_URL=https://github.com/react-boilerplate/react-boilerplate.git" \
+        -t react-boilerplate \
+        .
+
+Finally, we can run the output image:
+
+    docker run -it --rm -p 80:80 react-boilerplate
+
+The demo page is now available at <http://localhost>.
 
 References {#references .unnumbered}
 ----------
