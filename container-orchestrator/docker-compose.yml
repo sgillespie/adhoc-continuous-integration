@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  git_builder:
+    build: ./git-builder
+    command:
+      - https://github.com/react-boilerplate/react-boilerplate.git
+    volumes:
+      - src:/usr/src/app
+
+  node_builder:
+    build: ./node-builder
+    command:
+      - /bin/sh
+      - -c
+      - npm install && npm run test && npm run build
+    volumes:
+      - src:/usr/src/app
+
+volumes:
+  src:
