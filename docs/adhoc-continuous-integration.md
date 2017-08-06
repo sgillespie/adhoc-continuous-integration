@@ -120,7 +120,7 @@ Combining these stages into a single Dockerfile, we have
     FROM node:slim as git-builder
     ARG GIT_URL
     RUN apt-get update && \
-    apt-get -y install git
+        apt-get -y install git
     WORKDIR /usr/src/app
     RUN git clone $GIT_URL .
 
@@ -128,8 +128,8 @@ Combining these stages into a single Dockerfile, we have
     COPY --from=git-builder /usr/src/app /usr/src/app
     WORKDIR /usr/src/app
     RUN npm install && \
-    npm run test && \
-    npm run build
+        npm run test && \
+        npm run build
 
     FROM nginx:alpine
     COPY --from=node-builder /usr/src/app/build /usr/share/nginx/html
@@ -147,5 +147,29 @@ Finally, we can run the output image:
     docker run -it --rm -p 80:80 react-boilerplate
 
 The demo page is now available at <http://localhost>.
+
+### Analysis
+Multi-stage builds give us a good starting point. They allow us to repeatably build
+and test our projects, resulting in a lightweight, production-ready image.
+
+However, this approach is not very flexible. We can only update the behavior of
+the build by updating this Dockerfile. Because cloning is done in the Dockerfile,
+it would not be reasonable to store this in VCS. Therefore, we have store
+all build logic in a centralized location. While some CI software takes this
+approach, we believe that storing build logic in VCS improves repeatability.
+
+Finally, docker build will cache each instruction. We will only clone the
+source code the first time we run this job. We could compensate for this
+by using various cache-busting tricks.
+
+Multi-stage build give us a truly adhoc CI process. This could be useful in several
+contexts. For example:
+
+ * Early stages of development
+ * Environments where a full blown CI system is impractical
+ * Small environments
+
+We could overcome many of these shortcomings by adding more build arguments. Instead,
+we elect to take another approach entirely.
 
 ## References
