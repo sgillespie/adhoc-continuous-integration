@@ -17,5 +17,19 @@ services:
     volumes:
       - src:/usr/src/app
 
+  docker_builder:
+    build: ./docker-builder
+    environment:
+      BUILD_TAG: react-boilerplate:latest
+      DOCKERFILE: /dockerfiles/nginx.dockerfile
+    volumes:
+      - src:/usr/src/app
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  react_boilerplate:
+    image: react-boilerplate
+    ports:
+      - 80:80
+
 volumes:
   src:
