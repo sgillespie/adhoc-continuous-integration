@@ -1,2 +1,5 @@
 #!/bin/bash
-exec git clone $1 .
+
+exec git init && \
+    git fetch $1 && \
+    git reset --hard $FETCH_HEAD
