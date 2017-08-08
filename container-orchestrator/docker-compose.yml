@@ -3,6 +3,7 @@ version: "3"
 services:
   git_builder:
     build: ./git-builder
+    image: git-builder
     command:
       - https://github.com/react-boilerplate/react-boilerplate.git
     volumes:
@@ -10,6 +11,7 @@ services:
 
   node_builder:
     build: ./node-builder
+    image: node-builder
     command:
       - /bin/sh
       - -c
@@ -19,9 +21,21 @@ services:
 
   docker_builder:
     build: ./docker-builder
+    image: docker-builder
     environment:
       BUILD_TAG: react-boilerplate:latest
       DOCKERFILE: /dockerfiles/nginx.dockerfile
+    volumes:
+      - src:/usr/src/app
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  orchestrator:
+    build: ./orchestrator
+    image: orchestrator
+    environment:
+      BUILD_TAG: react-boilerplate
+      DOCKERFILE: /dockerfiles/nginx.dockerfile
+      GIT_URL: https://github.com/react-boilerplate/react-boilerplate.git
     volumes:
       - src:/usr/src/app
       - /var/run/docker.sock:/var/run/docker.sock
