@@ -169,4 +169,27 @@ in contexts where a minimal system is desired. At the very least,
 We could overcome many of these shortcomings by adding more build arguments. Instead,
 we elect to take another approach entirely.
 
+## Orchestrating a Build Across Multiple Containers
+While Docker build gave us a good starting point, it lacked the flexibility to 
+separate the boilerplate from the build logic. In order to achieve this, we can
+run the process inside Docker containers.
+
+Recall our CI process from [above](#using-docker-build):
+
+ 1. Check out a clean copy of the repository
+ 2. Build and test the code
+ 3. Build a Docker image
+
+Instead of running each of these in a `Dockerfile` instruction, these will each
+execute in a separate Docker container. We will maintain the source code and
+build artifacts in a shared volume. Additionally, we'll create a container
+that runs each phase in order.
+
+This leaves us with the following containers to create:
+
+ * git-builder
+ * node-builder
+ * docker-builder
+ * orchestrator
+
 ## References

@@ -5,6 +5,8 @@
 -   [What is Continuous Integration?](#what-is-continuous-integration)
 -   [Prerequisites](#prerequisites)
 -   [Using Docker Build](#using-docker-build)
+-   [Orchestrating a Build Across Multiple
+    Containers](#orchestrating-a-build-across-multiple-containers)
 -   [References](#references)
 
 Introduction
@@ -191,18 +193,41 @@ While some CI software takes this approach, we believe that storing
 build logic in VCS improves repeatability.
 
 Finally, docker build will cache each instruction. We will only clone
-the source code the first time we run this job. We could compensate for
-this by using various cache-busting tricks.
+the source code the first time we run this job. We could address this
+shortcoming by either disabling the docker cache entirely, or adding
+another build argument `COMMIT_ID`.
 
-Multi-stage build give us a truly adhoc CI process. This could be useful
-in several contexts. For example:
-
--   Early stages of development
--   Environments where a full blown CI system is impractical
--   Small environments
+Multi-stage build give us a truly adhoc CI process. Even so, this could
+be useful in contexts where a minimal system is desired. At the very
+least,
 
 We could overcome many of these shortcomings by adding more build
 arguments. Instead, we elect to take another approach entirely.
+
+Orchestrating a Build Across Multiple Containers
+------------------------------------------------
+
+While Docker build gave us a good starting point, it lacked the
+flexibility to separate the boilerplate from the build logic. In order
+to achieve this, we can run the process inside Docker containers.
+
+Recall our CI process from [above](#using-docker-build):
+
+1.  Check out a clean copy of the repository
+2.  Build and test the code
+3.  Build a Docker image
+
+Instead of running each of these in a `Dockerfile` instruction, these
+will each execute in a separate Docker container. We will maintain the
+source code and build artifacts in a shared volume. Additionally, we’ll
+create a container that runs each phase in order.
+
+This leaves us with the following containers to create:
+
+-   git-builder
+-   node-builder
+-   docker-builder
+-   orchestrator
 
 References {#references .unnumbered}
 ----------
