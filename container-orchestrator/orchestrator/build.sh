@@ -14,13 +14,12 @@ fi
 
 docker run -it \
     --volume "$VOLUME_NAME":/usr/src/app \
-    git-builder \
-    $GIT_URL
+    --env GIT_URL=https://github.com/react-boilerplate/react-boilerplate.git \
+    git-builder
 
 docker run -it \
     --volume "$VOLUME_NAME":/usr/src/app \
-    node-builder \
-    /bin/sh -c 'npm install && npm run test && npm run build'
+    node-builder
 
 docker run -it \
     --volume "$VOLUME_NAME":/usr/src/app \

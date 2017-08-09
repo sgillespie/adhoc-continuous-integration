@@ -6,6 +6,7 @@ RUN apt-get update && \
 WORKDIR /usr/src/app
 VOLUME /usr/src/app
 
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+CMD [ \
+    "/bin/sh", \
+    "-c", \
+    "git init && git fetch $GIT_URL && git reset --hard $FETCH_HEAD"]
