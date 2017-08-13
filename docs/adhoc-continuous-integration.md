@@ -182,8 +182,8 @@ Recall our CI process from [above](#using-docker-build):
 
 Instead of running each of these in a `Dockerfile` instruction, these will each
 execute in a separate Docker container. We will maintain the source code and
-build artifacts in a shared volume. Additionally, we'll create a container
-that runs each stage in order.
+build artifacts in a shared volume. Additionally, we'll create a container that
+automates running the stages.
 
 This leaves us with the following containers to create:
 
@@ -251,7 +251,7 @@ is straightforward:
         "npm install && npm run test && npm run build"]
 
 We again use the data volume to access the source code at `/usr/src/app`. We
-build it:
+now build the image:
 
     docker build -t node-builder .
 
@@ -263,18 +263,17 @@ Then we run it:
 
 ### Docker Builder
 The docker builder creates a docker image using generated artifacts from the
-build stage. This means that using docker build is our only option. Doing so
-requires us to run docker inside a docker container.
+build stage. This means that we will be running docker build from another
+container. 
 
 We can run docker inside another container by mounting the host's docker socket.
 For example:
 
     docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker
 
-This allows us to run docker commands from the container. Those commands would
-connect to the docker daemon running on the host's operating system.
+This allows us to run docker commands from inside the container. 
 
-We create the `Dockerfile`:
+We can now create the `Dockerfile`:
 
     FROM docker
 
@@ -294,7 +293,7 @@ We create the `Dockerfile`:
         "-c", \
         "docker build -t $BUILD_TAG ."]
 
-This `Dockerfile` has a few interesting bits in it. First, we take a an
+This `Dockerfile` has a few interesting instructions in it. First, we take an
 environment variable `BUILD_TAG`. This is the the tag we want docker to
 build. For example, if we're building `react-boilerplate`, we might set this
 to `react-boilerplate:latest`.
@@ -302,7 +301,7 @@ to `react-boilerplate:latest`.
 Secondly, we have an `entrypoint.sh` script. This will copy the built artifacts
 and the desired `Dockerfile` to `/tmp/build`.
 
-Finally, copy the directory `dockerfiles` into the image at `/dockerfiles`.
+Finally, we copy the directory `dockerfiles` into the image at `/dockerfiles`.
 This will allow us to keep a handful of `Dockerfiles` in order to build
 different types of projects.
 
@@ -328,7 +327,7 @@ We can now build it:
 
     docker build -t docker-builder .
 
-and run it:
+Then run it:
 
     docker run -it \
         --volume orch_build_1:/usr/src/app \
@@ -389,11 +388,11 @@ We again make sure that `build.sh` is executable:
 
     chmod +x build.sh
 
-Then we build it:
+We build it:
     
     docker build -t orchestrator .
 
-and run it:
+Then run it:
 
     docker run -it \
         --volume /var/run/docker.sock:/var/run/docker.sock \
