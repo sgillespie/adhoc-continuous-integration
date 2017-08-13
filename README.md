@@ -382,5 +382,71 @@ and run it:
 We have now manually run the entire CI process. Our next job is to
 automate it with the orchestrator.
 
+### Orchestrator
+
+The orchestrator’s job is to run all of the previous steps in sequence.
+Our `Dockerfile` is simple:
+
+    FROM docker
+
+    COPY build.sh /build.sh
+    ENTRYPOINT ["/build.sh"]
+
+Again, we have an entrypoint script `build.sh`. It’s a small script that
+runs all of the build stages:
+
+    #!/bin/sh
+    set -ex
+
+    # Create a volume
+    VOLUME_NAME=orch_build_$(echo ${GIT_URL%.git} | xargs basename)
+
+    # Look for existing volumes
+    VOLUME="$(docker volume ls --format {{.Name}} --filter name="$VOLUME_NAME")"
+
+    # Create it only if it doesn't exist
+    if [[ -z "$VOLUME" ]]; then
+        docker volume create "$VOLUME_NAME"
+    fi
+
+    docker run -it \
+        --volume "$VOLUME_NAME":/usr/src/app \
+        --env GIT_URL=$GIT_URL
+        git-builder
+
+    docker run -it \
+        --volume "$VOLUME_NAME":/usr/src/app \
+        node-builder
+
+    docker run -it \
+        --volume "$VOLUME_NAME":/usr/src/app \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env BUILD_TAG="$BUILD_TAG" \
+        --env DOCKERFILE="$DOCKERFILE" \
+        docker-builder
+
+First, we generate a name for the data volume. If it doesn’t already
+exist, we create it. We then run each of the other stages in docker
+containers.
+
+We again make sure that `build.sh` is executable:
+
+    chmod +x build.sh
+
+Then we build it:
+
+    docker build -t orchestrator .
+
+and run it:
+
+    docker run -it \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env GIT_URL="https://github.com/react-boilerplate/react-boilerplate.git"
+        --env BUILD_TAG="react-boilerplate:latest" \
+        --env DOCKERFILE="/dockerfiles/nginx.dockerfile" \
+        orchestrator
+
+We have now built a repeatable, automated process using only Docker.
+
 References {#references .unnumbered}
 ----------
