@@ -183,7 +183,7 @@ Recall our CI process from [above](#using-docker-build):
 Instead of running each of these in a `Dockerfile` instruction, these will each
 execute in a separate Docker container. We will maintain the source code and
 build artifacts in a shared volume. Additionally, we'll create a container
-that runs each phase in order.
+that runs each stage in order.
 
 This leaves us with the following containers to create:
 
@@ -191,5 +191,24 @@ This leaves us with the following containers to create:
  * node-builder
  * docker-builder
  * orchestrator
+
+The orchestrator will handle creating the shared volume and delegating tasks
+to the other containers.
+
+### Creating a Docker Volume
+A data volume is a special directory within one more more containers that 
+can be used to share or persist data, independent of the container's 
+lifecycle. Docker will never automatically delete a volume [@docker-volumes].
+We will use a data volume to persist our source tree between build stages.
+
+Our first step is to create the volume:
+
+    docker volume create orch_build
+
+We could mount it to a container by using the `-v` option. For example:
+
+    docker run -it --rm -v orch_build:/data alpine sh
+
+In this example, the volume would be mounted at `/data`.
 
 ## References
