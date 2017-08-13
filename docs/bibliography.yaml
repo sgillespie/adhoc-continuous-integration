@@ -32,4 +32,10 @@ references:
     title: Use multi-stage builds
     type: webpage
     URL: https://docs.docker.com/engine/userguide/eng-image/multistage-build/
+  - id: docker-volumes
+    author:
+      literal: Docker Inc.
+    title: Manage data in containers
+    type: webpage
+    URL: https://docs.docker.com/engine/tutorials/dockervolumes/
 ...

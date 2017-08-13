@@ -232,23 +232,74 @@ This leaves us with the following containers to create:
 The orchestrator will handle creating the shared volume and delegating
 tasks to the other containers.
 
-### Creating a Docker Volume
+### Creating the Docker Volume
 
 A data volume is a special directory within one more more containers
 that can be used to share or persist data, independent of the
-container’s lifecycle. Docker will never automatically delete a
-volume.[@docker-volumes] We will use a data volume to persist our source
-tree between build stages.
+container’s lifecycle.[@docker-volumes] We will use a data volume to
+persist our source tree between build stages.
 
 Our first step is to create the volume:
 
     docker volume create orch_build
 
-We could mount it to a container by using the `-v` option. For example:
+### Git Builder
 
-    docker run -it --rm -v orch_build:/data alpine sh
+The git builder will check out a clean copy of the repository in the
+data volume. We use the following `Dockerfile`:
 
-In this example, the volume would be mounted at `/data`.
+    FROM debian:stable-slim
+
+    RUN apt-get update && \
+    apt-get -y install git
+
+    WORKDIR /usr/src/app
+    VOLUME /usr/src/app
+
+    CMD [ \
+        "/bin/sh", \
+        "-c", \
+        "git init && git fetch $GIT_URL && git reset --hard FETCH_HEAD"]
+
+By default, this will fetch and checkout the repository defined by the
+environment variable `GIT_URL` at `/usr/src/app`. We build it using
+standard docker commands:
+
+    docker build -t git-builder .
+
+We can now run it, again using `react-boilerplate` as an example:
+
+    docker run -it \
+        --volume orch_build_1:/usr/src/app \
+        --env GIT_URL=https://github.com/react-boilerplate/react-boilerplate.git \
+        git-builder
+
+### Node Builder
+
+The next step is to build and test the code. For a node.js application,
+we will run the standard `npm` scripts `install`, `test`, and `run`. Our
+`Dockerfile` is straightforward:
+
+    FROM node:slim
+
+    WORKDIR /usr/src/app
+    VOLUME /usr/src/app
+
+    CMD [ \
+        "/bin/sh", \
+        "-c", \
+        "npm install && npm run test && npm run build"]
+
+We again use the data volume to access the source code at
+`/usr/src/app`. We build it:
+
+    docker build -t node-builder .
+
+Then we run it:
+
+    docker run -it \
+        --volume orch_build_1:/usr/src/app \
+        node-builder
 
 References {#references .unnumbered}
 ----------

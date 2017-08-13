@@ -9,4 +9,4 @@ VOLUME /usr/src/app
 CMD [ \
     "/bin/sh", \
     "-c", \
-    "git init && git fetch $GIT_URL && git reset --hard $FETCH_HEAD"]
+    "git init && git fetch $GIT_URL && git reset --hard FETCH_HEAD"]
