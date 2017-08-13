@@ -1,7 +1,7 @@
 FROM docker
 
 WORKDIR /tmp/build
-VOLUME /usr/src/app
+VOLUME /usr/src/app /var/run/docker.sock
 
 ENV BUILD_TAG=docker-build:latest
 

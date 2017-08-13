@@ -261,4 +261,83 @@ Then we run it:
         --volume orch_build_1:/usr/src/app \
         node-builder
 
+### Docker Builder
+The docker builder creates a docker image using generated artifacts from the
+build stage. This means that using docker build is our only option. Doing so
+requires us to run docker inside a docker container.
+
+We can run docker inside another container by mounting the host's docker socket.
+For example:
+
+    docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker
+
+This allows us to run docker commands from the container. Those commands would
+connect to the docker daemon running on the host's operating system.
+
+We create the `Dockerfile`:
+
+    FROM docker
+
+    WORKDIR /tmp/build
+    VOLUME /usr/src/app /var/run/docker.sock
+
+    ENV BUILD_TAG=docker-build:latest
+
+    COPY entrypoint.sh /entrypoint.sh
+
+    RUN mkdir -p /dockerfiles
+    COPY dockerfiles /dockerfiles
+
+    ENTRYPOINT ["/entrypoint.sh"]
+    CMD [ \
+        "/bin/sh", \
+        "-c", \
+        "docker build -t $BUILD_TAG ."]
+
+This `Dockerfile` has a few interesting bits in it. First, we take a an
+environment variable `BUILD_TAG`. This is the the tag we want docker to
+build. For example, if we're building `react-boilerplate`, we might set this
+to `react-boilerplate:latest`.
+
+Secondly, we have an `entrypoint.sh` script. This will copy the built artifacts
+and the desired `Dockerfile` to `/tmp/build`.
+
+Finally, copy the directory `dockerfiles` into the image at `/dockerfiles`.
+This will allow us to keep a handful of `Dockerfiles` in order to build
+different types of projects.
+
+The `entrypoint.sh` script is simple:
+
+    #!/bin/sh
+    cp -r /usr/src/app/build .
+    cp "$DOCKERFILE" ./Dockerfile
+
+    exec "$@"
+
+Before it can run, we have to make it executable:
+
+    chmod +x entrypoint
+
+We then create our nginx `Dockerfile` at `dockerfiles/nginx.dockerfile`:
+
+    FROM nginx:alpine
+
+    COPY build /usr/share/nginx/html
+
+We can now build it:
+
+    docker build -t docker-builder .
+
+and run it:
+
+    docker run -it \
+        --volume orch_build_1:/usr/src/app \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env BUILD_TAG="react-boilerplate:latest" \
+        --env DOCKERFILE="/dockerfiles/nginx.dockerfile" \
+        docker-builder
+
+We have now manually run the entire CI process. Our next job is to automate it
+with the orchestrator.
+
 ## References
