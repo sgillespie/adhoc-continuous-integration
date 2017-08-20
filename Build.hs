@@ -5,7 +5,7 @@ import Development.Shake.Util
 
 main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
-    want ["README.md", "_build/index.html"]
+    want ["_build/index.html"]
 
     -- Common Pandoc args
     let args = [
@@ -30,14 +30,3 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
             "--template=docs/github.template.html5"
             "--to=html"
             args 
-
-    "README.md" %> \out -> do
-        inputs <- getDirectoryFiles "" ["docs/*"]
-
-        need inputs
-
-        cmd "pandoc" 
-            "--output" out
-            "--template=docs/template.md"
-            "--to=markdown"
-            args
