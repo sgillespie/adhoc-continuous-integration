@@ -38,4 +38,10 @@ references:
     title: Manage data in containers
     type: webpage
     URL: https://docs.docker.com/engine/tutorials/dockervolumes/
+  - id: docker-swarm
+    author:
+      literal: Docker Inc.
+    title: Swarm mode overview
+    type: webpage
+    URL: https://docs.docker.com/engine/swarm/
 ...

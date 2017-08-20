@@ -402,5 +402,28 @@ Then run it:
         orchestrator
 
 We have now built a repeatable, automated process using only Docker.
+
+## Next Steps
+While we have a good start, we are by no means done. In order to create a
+complete CI system, we need to make several improvements.
+
+**Web Service:** We need a web service in order to trigger jobs from a VCS hook.
+A ReST service is the preferred way to achieve this. We should also provide a 
+web interface.
+
+**Build Definition**: We need a way to configure several build jobs. We prefer
+these definitions to be stored in VCS along with the source code. The YAML
+format should be considered since it is easy to write and read.
+
+**Docker Build**: In order to account for multiple projects, we must maintain 
+a centralized collection of `Dockerfile`s. This would be difficult to 
+maintain, so we would suggest dropping this requirement altogether. More 
+general alternatives exists, such as [Source to Image](https://github.com/openshift/source-to-image),
+but these suffer from the same problems.
+
+**Scaling**: Our current system can not schedule builds across multiple nodes.
+As of Docker 1.12, Swarm Mode is included, which can manage a cluster of 
+Docker Engines [@docker-swarm]. Extending our containers to swarm services are 
+trivial.
     
 ## References
