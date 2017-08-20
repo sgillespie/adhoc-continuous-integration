@@ -1,6 +1,6 @@
 ## Introduction
 There are several open source Continuous Integration (CI) tools available. 
-Unfortunately, when choosing a CI tool, one must make compromises. We believe 
+Unfortunately, when choosing a CI tool, one must make compromises. I believe 
 that CI software should be
 
  * Open Source
@@ -9,22 +9,24 @@ that CI software should be
  * Usable in the Cloud or on Bare Metal
 
 Fortunately, with the emergence of Docker, we can easily build such a tool.
-We present this system in the following sections.
+I present this system in the following sections.
 
 ## What is Continuous Integration?
 Continuous Integration is more than a piece of software, it's a practice. While the
-focus of this paper is on the software, we briefly discuss these two topics.
+focus of this paper is on the software, I briefly discuss these two topics.
 
 ### The Practice
-Continuous Integration is the practice of frequently integrating changes into a shared
-mainline [@fowler2006]. With modern Version Control Systems (VCS), this means that developers
-are merging their commits into `master`, or a shared `develop` branch.
+Continuous Integration is the practice of frequently integrating changes into 
+a shared mainline [@fowler2006]. With modern Version Control Systems (VCS), 
+this means that developers are merging their commits into `master` or a shared 
+`develop` branch.
 
-Along with this practice, Continuous Integration also has the following guidelines [@fowler2006]:
+Along with this practice, Continuous Integration also has the following 
+guidelines [@fowler2006]:
 
- * Automate the Build
- * Make the Build Self Testing
- * Every Commit Should Build on an Integration Machine
+ * Automate the build
+ * Make the build self sesting
+ * Every commit should build on an integration machine
 
 Continuous Integration software attempts to automate these.
 
@@ -45,6 +47,8 @@ features, so our dependencies will be
 
  * Docker Engine >= 17.05
  * Docker Compose >= 1.10
+
+A basic understanding of Docker is assumed.
 
 ## Using Docker Build
 Initially, our CI job use the following process:
@@ -84,7 +88,7 @@ static content built from the following commands:
     npm test
     npm run build
 
-Furthermore, we assume `npm run build` will generate artifacts in `build/`.
+We assume `npm run build` will generate artifacts in `build/`.
 
 First, we check out a clean copy of the repository:
 
@@ -156,18 +160,18 @@ However, this approach is not very flexible. We can only update the behavior of
 the build by updating this Dockerfile. Because cloning is done in the Dockerfile,
 it would not be reasonable to store this in VCS. Therefore, we have store
 all build logic in a centralized location. While some CI software takes this
-approach, we believe that storing build logic in VCS improves repeatability.
+approach, I believe that storing build logic in VCS improves repeatability.
 
 Finally, docker build will cache each instruction. We will only clone the
 source code the first time we run this job. We could address this shortcoming
 by either disabling the docker cache entirely, or adding another build argument
 `COMMIT_ID`.
 
-Multi-stage build give us a truly adhoc CI process. Even so, this could be useful
-in contexts where a minimal system is desired. At the very least, 
+Multi-stage builds give us a truly adhoc CI process. Even so, this could be useful
+in contexts where a minimal system is desired.
 
 We could overcome many of these shortcomings by adding more build arguments. Instead,
-we elect to take another approach entirely.
+we elect to take another approach.
 
 ## Orchestrating a Build Across Multiple Containers
 While Docker build gave us a good starting point, it lacked the flexibility to 
@@ -180,7 +184,7 @@ Recall our CI process from [above](#using-docker-build):
  2. Build and test the code
  3. Build a Docker image
 
-Instead of running each of these in a `Dockerfile` instruction, these will each
+Instead of running each of these in a `Dockerfile` instruction, they will
 execute in a separate Docker container. We will maintain the source code and
 build artifacts in a shared volume. Additionally, we'll create a container that
 automates running the stages.
@@ -411,13 +415,13 @@ complete CI system, we need to make several improvements.
 A ReST service is the preferred way to achieve this. We should also provide a 
 web interface.
 
-**Build Definition**: We need a way to configure several build jobs. We prefer
+**Build Definition**: We need a way to configure several build jobs. I prefer
 these definitions to be stored in VCS along with the source code. The YAML
 format should be considered since it is easy to write and read.
 
 **Docker Build**: In order to account for multiple projects, we must maintain 
 a centralized collection of `Dockerfile`s. This would be difficult to 
-maintain, so we would suggest dropping this requirement altogether. More 
+maintain, so I would suggest dropping this requirement altogether. More 
 general alternatives exists, such as [Source to Image](https://github.com/openshift/source-to-image),
 but these suffer from the same problems.
 
