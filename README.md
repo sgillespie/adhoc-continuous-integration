@@ -15,12 +15,13 @@ Introduction
 
 There are several open source Continuous Integration (CI) tools
 available. Unfortunately, when choosing a CI tool, one must make
-compromises. I believe that CI software should be
+compromises. I believe that CI software should
 
--   Open Source
--   Easy to Install
--   Easy to Scale
--   Usable in the Cloud or on Bare Metal
+-   Be open Source
+-   Be easy to install
+-   Be easy to scale
+-   Be usable in the cloud or on bare metal
+-   Allow jobs to be configured in source code
 
 Fortunately, with the emergence of Docker, we can easily build such a
 tool. I present this system in the following sections.
@@ -75,7 +76,7 @@ A basic understanding of Docker is assumed.
 Using Docker Build
 ------------------
 
-Initially, our CI job use the following process:
+Initially, our CI job will use the following process:
 
 1.  Check out a clean copy of the repository
 2.  Build and test the code
@@ -128,7 +129,7 @@ First, we check out a clean copy of the repository:
     RUN git clone $GIT_URL .
 
 We define a build argument `GIT_URL`, allowing us to pass the git clone
-URL of the project we want to build
+URL of the project we want to build.
 
 We now define a second stage to build the project:
 
@@ -189,8 +190,8 @@ production-ready image.
 
 However, this approach is not very flexible. We can only update the
 behavior of the build by updating this Dockerfile. Because cloning is
-done in the Dockerfile, it would not be reasonable to store this in VCS.
-Therefore, we have store all build logic in a centralized location.
+done in the `Dockerfile`, it would not be reasonable to store this in
+VCS. Therefore, we have store all build logic in a centralized location.
 While some CI software takes this approach, I believe that storing build
 logic in VCS improves repeatability.
 
@@ -454,8 +455,8 @@ While we have a good start, we are by no means done. In order to create
 a complete CI system, we need to make several improvements.
 
 **Web Service:** We need a web service in order to trigger jobs from a
-VCS hook. A ReST service is the preferred way to achieve this. We should
-also provide a web interface.
+VCS hooks. A ReST service is the preferred way to achieve this. We
+should also provide a web interface.
 
 **Build Definition**: We need a way to configure several build jobs. I
 prefer these definitions to be stored in VCS along with the source code.
@@ -464,9 +465,9 @@ The YAML format should be considered since it is easy to write and read.
 **Docker Build**: In order to account for multiple projects, we must
 maintain a centralized collection of `Dockerfile`s. This would be
 difficult to maintain, so I would suggest dropping this requirement
-altogether. More general alternatives exists, such as [Source to
-Image](https://github.com/openshift/source-to-image), but these suffer
-from the same problems.
+altogether. However, More general alternatives exists, such as [Source
+to Image](https://github.com/openshift/source-to-image), but these
+suffer from the same problems.
 
 **Scaling**: Our current system can not schedule builds across multiple
 nodes. As of Docker 1.12, Swarm Mode is included, which can manage a
