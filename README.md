@@ -45,7 +45,7 @@ After meeting these prerequisites you can build using the script:
     ./build.sh
 
 ## Acknowledgements
-This project builds on work by a variety of resources:
+This project builds on works by a variety of resources:
 
  * [Docker](https://docker.com)
  * [React Boilerplate](https://www.reactboilerplate.com/)
