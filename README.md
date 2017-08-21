@@ -4,7 +4,7 @@
 This project demonstrates how to build a CI system from the ground up using
 only Docker. The text can be found here:
 
-<https://sgillespie.github.io/adhoc-continuous-integraion>
+<https://sgillespie.github.io/adhoc-continuous-integration>
 
 ## Running the Examples
 Examples for each of the presented systems are included. For convenience, a
