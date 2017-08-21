@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Adhoc Continuous Integration</title>
+  <style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Adhoc Continuous Integration</h1>
+<blockquote>
+<p class="subtitle">Building a CI tool from the ground up with Docker</p>
+</blockquote>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#what-is-continuous-integration">What is Continuous Integration?</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#using-docker-build">Using Docker Build</a></li>
+<li><a href="#orchestrating-a-build-across-multiple-containers">Orchestrating a Build Across Multiple Containers</a></li>
+<li><a href="#next-steps">Next Steps</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</nav>
+<h2 id="introduction">Introduction</h2>
+<p>There are several open source Continuous Integration (CI) tools available. Unfortunately, when choosing a CI tool, one must make compromises. I believe that CI software should</p>
+<ul>
+<li>Be open Source</li>
+<li>Be easy to install</li>
+<li>Be easy to scale</li>
+<li>Be usable in the cloud or on bare metal</li>
+<li>Allow jobs to be configured in source code</li>
+</ul>
+<p>Fortunately, with the emergence of Docker, we can easily build such a tool. I present this system in the following sections.</p>
+<h2 id="what-is-continuous-integration">What is Continuous Integration?</h2>
+<p>Continuous Integration is more than a piece of software, it’s a practice. While the focus of this paper is on the software, I briefly discuss these two topics.</p>
+<h3 id="the-practice">The Practice</h3>
+<p>Continuous Integration is the practice of frequently integrating changes into a shared mainline.<span class="citation"><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></span> With modern Version Control Systems (VCS), this means that developers are merging their commits into <code>master</code> or a shared <code>develop</code> branch.</p>
+<p>Along with this practice, Continuous Integration also has the following guidelines:<span class="citation"><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></span></p>
+<ul>
+<li>Automate the build</li>
+<li>Make the build self sesting</li>
+<li>Every commit should build on an integration machine</li>
+</ul>
+<p>Continuous Integration software attempts to automate these.</p>
+<h3 id="continuous-integration-software">Continuous Integration Software</h3>
+<p>The role of CI software is build the project after each commit. The benefit is that developers are notified of failures as soon as possible. The sooner a bug is identified, the less expensive it is to fix.<span class="citation"><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></span></p>
+<p>A CI job run generally looks like this:<span class="citation"><a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></span></p>
+<ol style="list-style-type: decimal">
+<li>Check out a clean copy of the repository</li>
+<li>Build the code</li>
+<li>Run the test suite</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Our CI system will be built with Docker, Docker Swarm, and Docker Compose. We use newer features, so our dependencies will be</p>
+<ul>
+<li>Docker Engine &gt;= 17.05</li>
+<li>Docker Compose &gt;= 1.10</li>
+</ul>
+<p>A basic understanding of Docker is assumed.</p>
+<h2 id="using-docker-build">Using Docker Build</h2>
+<p>Initially, our CI job will use the following process:</p>
+<ol style="list-style-type: decimal">
+<li>Check out a clean copy of the repository</li>
+<li>Build and test the code</li>
+<li>Build a Docker image</li>
+</ol>
+<p>The output will be an image that can run our code. We can achieve this by using docker build, with the new multi-stage feature.</p>
+<h3 id="multi-stage-builds">Multi-stage Builds</h3>
+<p>Docker 17.05+ contains a new feature called multi-stage builds. With multi-stage builds, we build multiple containers, called stages, in a single Dockerfile. We can selectively copy artifacts from one stage to another. Each stage begins with a <code>FROM</code> instruction, and the last stage results in the output image.<span class="citation"><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></span></p>
+<p>Here is an example from the Docker <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/#use-multi-stage-builds">User Guide</a>:</p>
+<pre><code>FROM golang:1.7.3
+WORKDIR /go/src/github.com/alexellis/href-counter/
+RUN go get -d -v golang.org/x/net/html  
+COPY app.go .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+FROM alpine:latest  
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=0 /go/src/github.com/alexellis/href-counter/app .
+CMD [&quot;./app&quot;]</code></pre>
+<h3 id="using-multi-stage-builds">Using Multi-stage Builds</h3>
+<p>We now create a Node.js builder. The output will be an nginx image, serving only static content built from the following commands:</p>
+<pre><code>npm install
+npm test
+npm run build</code></pre>
+<p>We assume <code>npm run build</code> will generate artifacts in <code>build/</code>.</p>
+<p>First, we check out a clean copy of the repository:</p>
+<pre><code>FROM node:slim as git-builder
+ARG GIT_URL
+RUN apt-get update &amp;&amp; \
+apt-get -y install git
+WORKDIR /usr/src/app
+RUN git clone $GIT_URL .</code></pre>
+<p>We define a build argument <code>GIT_URL</code>, allowing us to pass the git clone URL of the project we want to build.</p>
+<p>We now define a second stage to build the project:</p>
+<pre><code>FROM node:slim as node-builder
+COPY --from=git-builder /usr/src/app /usr/src/app
+WORKDIR /usr/src/app
+RUN npm install &amp;&amp; \
+npm run test &amp;&amp; \
+npm run build</code></pre>
+<p>The argument <code>--from=git-builder</code> in the <code>COPY</code> instruction copies the source tree from the first stage to the second.</p>
+<p>We define a final stage to create the output image:</p>
+<pre><code>FROM nginx:alpine
+COPY --from=node-builder /usr/src/app/build /usr/share/nginx/html</code></pre>
+<p>Combining these stages into a single Dockerfile, we have</p>
+<pre><code>FROM node:slim as git-builder
+ARG GIT_URL
+RUN apt-get update &amp;&amp; \
+    apt-get -y install git
+WORKDIR /usr/src/app
+RUN git clone $GIT_URL .
+
+FROM node:slim as node-builder
+COPY --from=git-builder /usr/src/app /usr/src/app
+WORKDIR /usr/src/app
+RUN npm install &amp;&amp; \
+    npm run test &amp;&amp; \
+    npm run build
+
+FROM nginx:alpine
+COPY --from=node-builder /usr/src/app/build /usr/share/nginx/html</code></pre>
+<p>We can now execute the build using the <code>docker build</code> command. In this example we will build <a href="https://www.reactboilerplate.com/">React Boilerplate</a>:</p>
+<pre><code>docker build \
+    --build-arg &quot;GIT_URL=https://github.com/react-boilerplate/react-boilerplate.git&quot; \
+    -t react-boilerplate \
+    .</code></pre>
+<p>Finally, we can run the output image:</p>
+<pre><code>docker run -it --rm -p 80:80 react-boilerplate</code></pre>
+<p>The demo page is now available at <a href="http://localhost" class="uri">http://localhost</a>.</p>
+<h3 id="analysis">Analysis</h3>
+<p>Multi-stage builds give us a good starting point. They allow us to repeatably build and test our projects, resulting in a lightweight, production-ready image.</p>
+<p>However, this approach is not very flexible. We can only update the behavior of the build by updating this Dockerfile. Because cloning is done in the <code>Dockerfile</code>, it would not be reasonable to store this in VCS. Therefore, we have store all build logic in a centralized location. While some CI software takes this approach, I believe that storing build logic in VCS improves repeatability.</p>
+<p>Finally, docker build will cache each instruction. We will only clone the source code the first time we run this job. We could address this shortcoming by either disabling the docker cache entirely, or adding another build argument <code>COMMIT_ID</code>.</p>
+<p>Multi-stage builds give us a truly adhoc CI process. Even so, this could be useful in contexts where a minimal system is desired.</p>
+<p>We could overcome many of these shortcomings by adding more build arguments. Instead, we elect to take another approach.</p>
+<h2 id="orchestrating-a-build-across-multiple-containers">Orchestrating a Build Across Multiple Containers</h2>
+<p>While Docker build gave us a good starting point, it lacked the flexibility to separate the boilerplate from the build logic. In order to achieve this, we can run the process inside Docker containers.</p>
+<p>Recall our CI process from <a href="#using-docker-build">above</a>:</p>
+<ol style="list-style-type: decimal">
+<li>Check out a clean copy of the repository</li>
+<li>Build and test the code</li>
+<li>Build a Docker image</li>
+</ol>
+<p>Instead of running each of these in a <code>Dockerfile</code> instruction, they will execute in a separate Docker container. We will maintain the source code and build artifacts in a shared volume. Additionally, we’ll create a container that automates running the stages.</p>
+<p>This leaves us with the following containers to create:</p>
+<ul>
+<li>git-builder</li>
+<li>node-builder</li>
+<li>docker-builder</li>
+<li>orchestrator</li>
+</ul>
+<p>The orchestrator will handle creating the shared volume and delegating tasks to the other containers.</p>
+<h3 id="creating-the-docker-volume">Creating the Docker Volume</h3>
+<p>A data volume is a special directory within one more more containers that can be used to share or persist data, independent of the container’s lifecycle.<span class="citation"><a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></span> We will use a data volume to persist our source tree between build stages.</p>
+<p>Our first step is to create the volume:</p>
+<pre><code>docker volume create orch_build</code></pre>
+<h3 id="git-builder">Git Builder</h3>
+<p>The git builder will check out a clean copy of the repository in the data volume. We use the following <code>Dockerfile</code>:</p>
+<pre><code>FROM debian:stable-slim
+
+RUN apt-get update &amp;&amp; \
+apt-get -y install git
+
+WORKDIR /usr/src/app
+VOLUME /usr/src/app
+
+CMD [ \
+    &quot;/bin/sh&quot;, \
+    &quot;-c&quot;, \
+    &quot;git init &amp;&amp; git fetch $GIT_URL &amp;&amp; git reset --hard FETCH_HEAD&quot;]</code></pre>
+<p>By default, this will fetch and checkout the repository defined by the environment variable <code>GIT_URL</code> at <code>/usr/src/app</code>. We build it using standard docker commands:</p>
+<pre><code>docker build -t git-builder .</code></pre>
+<p>We can now run it, again using <code>react-boilerplate</code> as an example:</p>
+<pre><code>docker run -it \
+    --volume orch_build_1:/usr/src/app \
+    --env GIT_URL=https://github.com/react-boilerplate/react-boilerplate.git \
+    git-builder</code></pre>
+<h3 id="node-builder">Node Builder</h3>
+<p>The next step is to build and test the code. For a node.js application, we will run the standard <code>npm</code> scripts <code>install</code>, <code>test</code>, and <code>run</code>. Our <code>Dockerfile</code> is straightforward:</p>
+<pre><code>FROM node:slim
+
+WORKDIR /usr/src/app
+VOLUME /usr/src/app
+
+CMD [ \
+    &quot;/bin/sh&quot;, \
+    &quot;-c&quot;, \
+    &quot;npm install &amp;&amp; npm run test &amp;&amp; npm run build&quot;]</code></pre>
+<p>We again use the data volume to access the source code at <code>/usr/src/app</code>. We now build the image:</p>
+<pre><code>docker build -t node-builder .</code></pre>
+<p>Then we run it:</p>
+<pre><code>docker run -it \
+    --volume orch_build_1:/usr/src/app \
+    node-builder</code></pre>
+<h3 id="docker-builder">Docker Builder</h3>
+<p>The docker builder creates a docker image using generated artifacts from the build stage. This means that we will be running docker build from another container.</p>
+<p>We can run docker inside another container by mounting the host’s docker socket. For example:</p>
+<pre><code>docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker</code></pre>
+<p>This allows us to run docker commands from inside the container.</p>
+<p>We can now create the <code>Dockerfile</code>:</p>
+<pre><code>FROM docker
+
+WORKDIR /tmp/build
+VOLUME /usr/src/app /var/run/docker.sock
+
+ENV BUILD_TAG=docker-build:latest
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN mkdir -p /dockerfiles
+COPY dockerfiles /dockerfiles
+
+ENTRYPOINT [&quot;/entrypoint.sh&quot;]
+CMD [ \
+    &quot;/bin/sh&quot;, \
+    &quot;-c&quot;, \
+    &quot;docker build -t $BUILD_TAG .&quot;]</code></pre>
+<p>This <code>Dockerfile</code> has a few interesting instructions in it. First, we take an environment variable <code>BUILD_TAG</code>. This is the the tag we want docker to build. For example, if we’re building <code>react-boilerplate</code>, we might set this to <code>react-boilerplate:latest</code>.</p>
+<p>Secondly, we have an <code>entrypoint.sh</code> script. This will copy the built artifacts and the desired <code>Dockerfile</code> to <code>/tmp/build</code>.</p>
+<p>Finally, we copy the directory <code>dockerfiles</code> into the image at <code>/dockerfiles</code>. This will allow us to keep a handful of <code>Dockerfiles</code> in order to build different types of projects.</p>
+<p>The <code>entrypoint.sh</code> script is simple:</p>
+<pre><code>#!/bin/sh
+cp -r /usr/src/app/build .
+cp &quot;$DOCKERFILE&quot; ./Dockerfile
+
+exec &quot;$@&quot;</code></pre>
+<p>Before it can run, we have to make it executable:</p>
+<pre><code>chmod +x entrypoint</code></pre>
+<p>We then create our nginx <code>Dockerfile</code> at <code>dockerfiles/nginx.dockerfile</code>:</p>
+<pre><code>FROM nginx:alpine
+
+COPY build /usr/share/nginx/html</code></pre>
+<p>We can now build it:</p>
+<pre><code>docker build -t docker-builder .</code></pre>
+<p>Then run it:</p>
+<pre><code>docker run -it \
+    --volume orch_build_1:/usr/src/app \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --env BUILD_TAG=&quot;react-boilerplate:latest&quot; \
+    --env DOCKERFILE=&quot;/dockerfiles/nginx.dockerfile&quot; \
+    docker-builder</code></pre>
+<p>We have now manually run the entire CI process. Our next job is to automate it with the orchestrator.</p>
+<h3 id="orchestrator">Orchestrator</h3>
+<p>The orchestrator’s job is to run all of the previous steps in sequence. Our <code>Dockerfile</code> is simple:</p>
+<pre><code>FROM docker
+
+COPY build.sh /build.sh
+ENTRYPOINT [&quot;/build.sh&quot;]</code></pre>
+<p>Again, we have an entrypoint script <code>build.sh</code>. It’s a small script that runs all of the build stages:</p>
+<pre><code>#!/bin/sh
+set -ex
+
+# Create a volume
+VOLUME_NAME=orch_build_$(echo ${GIT_URL%.git} | xargs basename)
+
+# Look for existing volumes
+VOLUME=&quot;$(docker volume ls --format {{.Name}} --filter name=&quot;$VOLUME_NAME&quot;)&quot;
+
+# Create it only if it doesn&#39;t exist
+if [[ -z &quot;$VOLUME&quot; ]]; then
+    docker volume create &quot;$VOLUME_NAME&quot;
+fi
+
+docker run -it \
+    --volume &quot;$VOLUME_NAME&quot;:/usr/src/app \
+    --env GIT_URL=$GIT_URL
+    git-builder
+
+docker run -it \
+    --volume &quot;$VOLUME_NAME&quot;:/usr/src/app \
+    node-builder
+
+docker run -it \
+    --volume &quot;$VOLUME_NAME&quot;:/usr/src/app \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --env BUILD_TAG=&quot;$BUILD_TAG&quot; \
+    --env DOCKERFILE=&quot;$DOCKERFILE&quot; \
+    docker-builder</code></pre>
+<p>First, we generate a name for the data volume. If it doesn’t already exist, we create it. We then run each of the other stages in docker containers.</p>
+<p>We again make sure that <code>build.sh</code> is executable:</p>
+<pre><code>chmod +x build.sh</code></pre>
+<p>We build it:</p>
+<pre><code>docker build -t orchestrator .</code></pre>
+<p>Then run it:</p>
+<pre><code>docker run -it \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --env GIT_URL=&quot;https://github.com/react-boilerplate/react-boilerplate.git&quot;
+    --env BUILD_TAG=&quot;react-boilerplate:latest&quot; \
+    --env DOCKERFILE=&quot;/dockerfiles/nginx.dockerfile&quot; \
+    orchestrator</code></pre>
+<p>We have now built a repeatable, automated process using only Docker.</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>While we have a good start, we are by no means done. In order to create a complete CI system, we need to make several improvements.</p>
+<p><strong>Web Service:</strong> We need a web service in order to trigger jobs from a VCS hooks. A ReST service is the preferred way to achieve this. We should also provide a web interface.</p>
+<p><strong>Build Definition</strong>: We need a way to configure several build jobs. I prefer these definitions to be stored in VCS along with the source code. The YAML format should be considered since it is easy to write and read.</p>
+<p><strong>Docker Build</strong>: In order to account for multiple projects, we must maintain a centralized collection of <code>Dockerfile</code>s. This would be difficult to maintain, so I would suggest dropping this requirement altogether. However, More general alternatives exists, such as <a href="https://github.com/openshift/source-to-image">Source to Image</a>, but these suffer from the same problems.</p>
+<p><strong>Scaling</strong>: Our current system can not schedule builds across multiple nodes. As of Docker 1.12, Swarm Mode is included, which can manage a cluster of Docker Engines.<span class="citation"><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></span> Extending our containers to swarm services are trivial.</p>
+<h2 id="references" class="unnumbered">References</h2>
+<div id="refs" class="references">
+<div id="ref-docker-volumes">
+<p>Docker Inc. “Manage Data in Containers,” n.d. <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" class="uri">https://docs.docker.com/engine/tutorials/dockervolumes/</a>.</p>
+</div>
+<div id="ref-docker-swarm">
+<p>———. “Swarm Mode Overview,” n.d. <a href="https://docs.docker.com/engine/swarm/" class="uri">https://docs.docker.com/engine/swarm/</a>.</p>
+</div>
+<div id="ref-docker-multistage">
+<p>———. “Use Multi-Stage Builds,” n.d. <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/" class="uri">https://docs.docker.com/engine/userguide/eng-image/multistage-build/</a>.</p>
+</div>
+<div id="ref-engineyard2012">
+<p>Engine Yard. “3 Challenges to Continuous Integration and How to Overcome Them,” 2012. <a href="https://blog.engineyard.com/2012/continuous-integration" class="uri">https://blog.engineyard.com/2012/continuous-integration</a>.</p>
+</div>
+<div id="ref-fowler2006">
+<p>Fowler, Martin. “Continuous Integration,” 2006. <a href="https://martinfowler.com/articles/continuousIntegration.html" class="uri">https://martinfowler.com/articles/continuousIntegration.html</a>.</p>
+</div>
+<div id="ref-sankey2006">
+<p>Sankey, Jason. “The Road to Build Enlightenment,” 2006. <a href="http://zutubi.com/products/pulse/articles/buildenlightenment" class="uri">http://zutubi.com/products/pulse/articles/buildenlightenment</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Martin Fowler, “Continuous Integration,” 2006, <a href="https://martinfowler.com/articles/continuousIntegration.html" class="uri">https://martinfowler.com/articles/continuousIntegration.html</a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Fowler, “Continuous Integration.”<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Jason Sankey, “The Road to Build Enlightenment,” 2006, <a href="http://zutubi.com/products/pulse/articles/buildenlightenment" class="uri">http://zutubi.com/products/pulse/articles/buildenlightenment</a>.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Engine Yard, “3 Challenges to Continuous Integration and How to Overcome Them,” 2012, <a href="https://blog.engineyard.com/2012/continuous-integration" class="uri">https://blog.engineyard.com/2012/continuous-integration</a>.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>Docker Inc., “Use Multi-Stage Builds,” n.d., <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/" class="uri">https://docs.docker.com/engine/userguide/eng-image/multistage-build/</a>.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Docker Inc., “Manage Data in Containers,” n.d., <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" class="uri">https://docs.docker.com/engine/tutorials/dockervolumes/</a>.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>Docker Inc., “Swarm Mode Overview,” n.d., <a href="https://docs.docker.com/engine/swarm/" class="uri">https://docs.docker.com/engine/swarm/</a>.<a href="#fnref7">↩</a></p></li>
+</ol>
+</div>
+
+</article>
+</body>
+</html>
